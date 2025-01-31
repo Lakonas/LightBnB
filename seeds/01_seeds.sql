@@ -7,7 +7,7 @@ VALUES
 INSERT INTO properties (owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, parking_spaces, number_of_bedrooms, number_of_bathrooms, country, street, city, province, post_code, active)
 VALUES
 (1,  'Hello','not too bad.', 'thumbnail_cottage.jpg', 'cover_cottage.jpg', 150, 2, 2, 1, 'USA', '42 Maple St', 'Springfield', 'IL', '62704', true),
-(2, 'My Cottage', 'shabby.', 'thumbnail_cottage.jpg', 'cover_cottage.jpg', 132, 1, 2, 1, 'Canada', '5 Maple St', 'Paris', 'ON', 'N3T5E3', true),
+(2, 'Cozy Cottage', 'shabby.', 'thumbnail_cottage.jpg', 'cover_cottage.jpg', 132, 1, 2, 1, 'Canada', '5 Maple St', 'Paris', 'ON', 'N3T5E3', true),
 (3, 'My Cottage', 'Just ok.', 'thumbnail_cottage.jpg', 'cover_cottage.jpg', 120, 1, 2, 1, 'Canada', '78 Maple St', 'Paris', 'ON', 'N3T4E4', true),
 
 
