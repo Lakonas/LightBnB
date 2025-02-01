@@ -12,11 +12,11 @@ VALUES
 
 
 INSERT INTO reservations (start_date, end_date, property_id, guest_id)
-VALUES (1, '2018-09-11','2018-09-26',1,1 ),
-('2019-01-04', '2021-10-14',5,2),
-('2019-01-09', '2021-10-15',7,3);
+VALUES ('2018-09-11','2018-09-26',1,1 ),
+('2019-01-04', '2021-10-14',2,2),
+('2019-01-09', '2021-10-15',3,3);
 
 INSERT INTO property_reviews (guest_id, property_id, reservation_id, rating, message)
-VALUES (1,2,3,5,'good'),
-(2,3,4, 5, 'good'),
-(3,4,5, 3,'ok'),
+VALUES (3,2,1,5,'good'),
+(2,2,2, 5, 'good'),
+(3,1,3, 3,'ok'),
