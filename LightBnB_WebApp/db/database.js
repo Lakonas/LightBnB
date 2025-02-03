@@ -199,31 +199,48 @@ queryString += `
  * @param {{}} property An object containing all of the property details.
  * @return {Promise<{}>} A promise to the property.
  */
-const newProperty = {
-  owner_id: 1, // Owner's user ID
-  title: 'Cozy Cottage by the Beach',
-  description: 'A cozy beachside cottage perfect for a weekend getaway.',
-  thumbnail_photo_url: 'https://example.com/thumbnail.jpg',
-  cover_photo_url: 'https://example.com/cover.jpg',
-  cost_per_night: 100, // In dollars
-  street: '123 Beach Ave',
-  city: 'Santa Monica',
-  province: 'California',
-  post_code: '90401',
-  country: 'USA',
-  parking_spaces: 2,
-  number_of_bathrooms: 1,
-  number_of_bedrooms: 2
+const addProperty = function (property) {
+  // The query to insert the new property into the properties table
+  const queryString = `
+    INSERT INTO properties (
+      owner_id, title, description, thumbnail_photo_url, cover_photo_url, 
+      cost_per_night, street, city, province, post_code, country, 
+      parking_spaces, number_of_bathrooms, number_of_bedrooms
+    ) 
+    VALUES (
+      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14
+    ) 
+    RETURNING *;
+  `;
+
+  // Parameters for the query
+  const queryParams = [
+    property.owner_id,
+    property.title,
+    property.description,
+    property.thumbnail_photo_url,
+    property.cover_photo_url,
+    property.cost_per_night,
+    property.street,
+    property.city,
+    property.province,
+    property.post_code,
+    property.country,
+    property.parking_spaces,
+    property.number_of_bathrooms,
+    property.number_of_bedrooms
+  ];
+
+  // Execute the query and return the newly inserted property
+  return pool
+    .query(queryString, queryParams) // Execute the query with parameters
+    .then((res) => res.rows[0]) // Return the first row (the inserted property)
+    .catch((err) => {
+      console.error('Error inserting property:', err.message); // Log any errors
+      return null; // Return null if an error occurs
+    });
 };
 
-// Call the function to add the new property
-addProperty(newProperty)
-  .then((property) => {
-    console.log('New property added:', property);
-  })
-  .catch((err) => {
-    console.error('Failed to add property:', err);
-  });
 
 
 module.exports = {
