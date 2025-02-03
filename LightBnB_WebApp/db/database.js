@@ -126,13 +126,17 @@ const getAllProperties = function (options, limit = 10) {
     SELECT properties.*, AVG(property_reviews.rating) AS average_rating
     FROM properties
     LEFT JOIN property_reviews ON properties.id = property_reviews.property_id
-    WHERE 1=1
-`;
+  `;
 
-if (options.city) {
+  // Start building the WHERE clause based on options
+  let whereClauseAdded = false;
+
+  // Check if a city is provided and add to query
+  if (options.city) {
     queryParams.push(`%${options.city}%`);
-    queryString += `AND city LIKE $${queryParams.length} `;
-}
+    queryString += `WHERE city LIKE $${queryParams.length} `;
+    whereClauseAdded = true;
+  }
 
   // Check if an owner_id is provided and add to query
   if (options.owner_id) {
@@ -195,12 +199,32 @@ queryString += `
  * @param {{}} property An object containing all of the property details.
  * @return {Promise<{}>} A promise to the property.
  */
-const addProperty = function (property) {
-  const propertyId = Object.keys(properties).length + 1;
-  property.id = propertyId;
-  properties[propertyId] = property;
-  return Promise.resolve(property);
+const newProperty = {
+  owner_id: 1, // Owner's user ID
+  title: 'Cozy Cottage by the Beach',
+  description: 'A cozy beachside cottage perfect for a weekend getaway.',
+  thumbnail_photo_url: 'https://example.com/thumbnail.jpg',
+  cover_photo_url: 'https://example.com/cover.jpg',
+  cost_per_night: 100, // In dollars
+  street: '123 Beach Ave',
+  city: 'Santa Monica',
+  province: 'California',
+  post_code: '90401',
+  country: 'USA',
+  parking_spaces: 2,
+  number_of_bathrooms: 1,
+  number_of_bedrooms: 2
 };
+
+// Call the function to add the new property
+addProperty(newProperty)
+  .then((property) => {
+    console.log('New property added:', property);
+  })
+  .catch((err) => {
+    console.error('Failed to add property:', err);
+  });
+
 
 module.exports = {
   getUserWithEmail,
