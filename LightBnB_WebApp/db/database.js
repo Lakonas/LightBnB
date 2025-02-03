@@ -173,26 +173,21 @@ const getAllProperties = function (options, limit = 10) {
 
   // Check if minimum_rating is provided and add to query
   if (options.minimum_rating) {
-    if (whereClauseAdded) {
-      queryString += `AND AVG(property_reviews.rating) >= $${queryParams.length + 1} `;
-    } else {
-      queryString += `WHERE AVG(property_reviews.rating) >= $${queryParams.length + 1} `;
-      whereClauseAdded = true;
-    }
     queryParams.push(options.minimum_rating);
+    queryString += `GROUP BY properties.id HAVING avg(property_reviews.rating) >= $${queryParams.length} `;
   }
 
-  // Finish building the query with GROUP BY, ORDER BY, and LIMIT
+  
   queryString += `
     GROUP BY properties.id
     ORDER BY cost_per_night
     LIMIT $${queryParams.length + 1};
   `;
 
-  // Add the limit to the query parameters
+  
   queryParams.push(limit);
 
-  // Log the query string and parameters for debugging
+  
   console.log(queryString, queryParams);
 
   // Execute the query
