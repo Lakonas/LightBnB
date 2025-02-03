@@ -126,17 +126,13 @@ const getAllProperties = function (options, limit = 10) {
     SELECT properties.*, AVG(property_reviews.rating) AS average_rating
     FROM properties
     LEFT JOIN property_reviews ON properties.id = property_reviews.property_id
-  `;
+    WHERE 1=1
+`;
 
-  // Start building the WHERE clause based on options
-  let whereClauseAdded = false;
-
-  // Check if a city is provided and add to query
-  if (options.city) {
+if (options.city) {
     queryParams.push(`%${options.city}%`);
-    queryString += `WHERE city LIKE $${queryParams.length} `;
-    whereClauseAdded = true;
-  }
+    queryString += `AND city LIKE $${queryParams.length} `;
+}
 
   // Check if an owner_id is provided and add to query
   if (options.owner_id) {
